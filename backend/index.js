@@ -1,13 +1,10 @@
 const express = require("express");
 const User = require("./models/userDb");
 const mongoose = require("mongoose");
-const ejs = require("ejs");
-const path = require("path");
 const bcrypt = require("bcrypt");
 const app = express();
-var cors = require('cors')
+var cors = require('cors');
 
-app.use(cors())
 
 //functions
 //conversion to pascal case
@@ -17,20 +14,22 @@ function toPascalCase(str) {
     });
 }
 
+//mongoose connection check
 mongoose.connect("mongodb://127.0.0.1:27017/authDemo").then((data) => {
     console.log("connection open");
 }).catch((err) => {
     console.log(err);
 });
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.json())
-app.use(express.urlencoded())
+
+//middlewares
+app.use(cors());
+app.use(express.json());
 
 
-
+//signup
 app.post("/signup", async (req, res) => {
+    console.log(req.body);
     let { firstName, lastName, password, enrollmentNo } = req.body;
     firstName = toPascalCase(firstName);
     lastName = toPascalCase(lastName);
@@ -67,6 +66,7 @@ app.post("/signup", async (req, res) => {
 
 //login
 app.post("/login", async (req, res) => {
+    console.log(req.body);
     const { enrollmentNo, password } = req.body;
     const isUser = await User.findOne({ enrollmentNo: enrollmentNo });
 
