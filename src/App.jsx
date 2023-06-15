@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Login from "./components/login/Login";
 import Signup from "./components/signup/Signup";
@@ -9,18 +9,27 @@ import Results from "./components/Results/Results";
 import Notices from "./components/Notices/Notices";
 import Timetable from "./components/Timetable/Timetable";
 import Resources from "./components/Resources/Resources";
+import Control from "./components/AdminControls/control";
 
 function App() {
-  const [user, setLoginUser] = useState({});
+  const [user, setLoginUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <Router>
-        {user._id && <NavSlider />}
+        {user._id && <NavSlider isAdmin={user.isAdmin}/>}
 
         <Routes>
           <Route
-            exact path="/"
+            exact
+            path="/"
             element={
               user._id ? (
                 <Dashboard user={user} setLoginUser={setLoginUser} />
@@ -29,12 +38,16 @@ function App() {
               )
             }
           />
-          <Route path="/login" element={<Login setLoginUser={setLoginUser} />} />
+          <Route
+            path="/login"
+            element={<Login setLoginUser={setLoginUser} />}
+          />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/Results" element={<Results />} />
-          <Route path="/Notices" element={<Notices />} />
-          <Route path="/TimeTable" element={<Timetable />} />
-          <Route path="/Resources" element={<Resources />} />
+          <Route path="/user/Results" element={<Results />} />
+          <Route path="/user/Notices" element={<Notices />} />
+          <Route path="/user/TimeTable" element={<Timetable />} />
+          <Route path="/user/Resources" element={<Resources />} />
+          <Route path="/admin/Controls" element={<Control />} />
         </Routes>
       </Router>
     </div>
