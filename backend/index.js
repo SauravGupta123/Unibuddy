@@ -30,7 +30,7 @@ app.use(express.json());
 //signup
 app.post("/signup", async (req, res) => {
     console.log(req.body);
-    let { firstName, lastName, password, enrollmentNo } = req.body;
+    let { firstName, lastName, password, enrollmentNo, isAdmin } = req.body;
     firstName = toPascalCase(firstName);
     lastName = toPascalCase(lastName);
 
@@ -53,6 +53,7 @@ app.post("/signup", async (req, res) => {
         lastName,
         enrollmentNo,
         password: hashedPw,
+        isAdmin
     });
     newUser.save().then(data => {
         console.log("saved");
