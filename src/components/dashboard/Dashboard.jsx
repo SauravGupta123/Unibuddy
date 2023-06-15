@@ -10,15 +10,17 @@ const Dashboard = (props) => {
         console.log(props.user);
     }
     return (
-        <div className="dashboard">
+        <div className="container bg-blue-200-300 w-full p-28">
+            <div>
 
             <h1>STUDENTS DASHBOARD</h1>
             <h1>Welcome {props.user.firstName}  {props.user.lastName} 😊 </h1>
             <h2>
                 enrollment no= {props.user.enrollmentNo}
             </h2>
-            <button onClick={handleLogout}> Log Out</button>
+            <button className="btn btn-blue" onClick={handleLogout}> Log Out</button>
           
+            </div>
 
         </div>
     )

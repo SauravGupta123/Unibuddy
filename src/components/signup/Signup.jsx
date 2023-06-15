@@ -30,6 +30,7 @@ const Register = () => {
             .then( res => {
                 console.log("res recieved");
                 alert(res.data.message)
+                navigate('/login');
                 
             }).catch(error => {
                 console.log("Error:", error);
