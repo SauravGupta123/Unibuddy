@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function Notices() {
+export default function Resources() {
   return (
+    
     <div className='bg-blue-100  w-full'>
-      this is notices
-    </div>
+        this is Resources
+      </div>
+  
   )
 }
