@@ -1,12 +1,17 @@
-import React from 'react';
+import {useState, useEffect} from 'react';
 
 export default function Notices() {
-  const object = [
-    { id:1,title: "results", link:"https://google.com" },
-    { id:2,title: "results", link:"https://google.com" },
-    { id:3,title: "results", link:"https://google.com" },
-    { id:44,title: "results", link:"https://google.com"}
-  ];
+  const [noticeData, setNoticeData] = useState([])
+  useEffect(() => {
+    const getNoticeData = async () => {
+      const reqData = await fetch('http://localhost/unibuddy/api/notices.php')
+      const resData = await reqData.json()
+      console.log(resData)
+      setNoticeData(resData)
+    }
+    getNoticeData()
+  }, [])
+  
 
   return (
     <div className="container bg-blue-200 w-full flex items-center justify-center">
@@ -20,9 +25,9 @@ export default function Notices() {
           </tr>
         </thead>
         <tbody>
-          {object.map((item, index) => (
+          {noticeData.map((item, index) => (
             <tr key={index}>
-              <td className="border border-black  p-2">{item.id}</td>
+              <td className="border border-black  p-2">{index+1}</td>
               <td className="border border-black  p-2">{item.title}</td>
               <td className="border border-black  p-2">{item.link}</td>
             </tr>
