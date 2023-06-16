@@ -6,7 +6,7 @@ function Control() {
 
   const handleClick = () => {
     if(showNotices){
-      
+
     setShowNotices(false)}
     else{
       setShowNotices(true)
