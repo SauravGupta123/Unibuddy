@@ -4,7 +4,7 @@ export default function Notices() {
   const [noticeData, setNoticeData] = useState([])
   useEffect(() => {
     const getNoticeData = async () => {
-      const reqData = await fetch('http://localhost/unibuddy/api/notices.php')
+      const reqData = await fetch('http://localhost/unibuddy/backend/api/notices.php')
       const resData = await reqData.json()
       console.log(resData)
       setNoticeData(resData)

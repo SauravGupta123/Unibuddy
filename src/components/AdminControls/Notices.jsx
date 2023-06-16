@@ -15,7 +15,7 @@ function Notices() {
         e.preventDefault()
 
         const formData = {title: inputs.title, link: inputs.link}
-        const res = await axios.post('http://localhost/unibuddy/api/notices.php', formData)
+        const res = await axios.post('http://localhost/unibuddy/backend/api/notices.php', formData)
         console.log(inputs);
     
     }
