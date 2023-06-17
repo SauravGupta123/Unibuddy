@@ -24,7 +24,7 @@ const Login = ({setLoginUser}) => {
         axios.post("http://localhost:3000/login", user)
         .then(res => {
                alert(res.data.message);
-               console.log(res.data.user.firstName);
+              
             //    setLoginUser({
             //        isLogin:true,
             //        firstName:res.data.user.firstName,
@@ -33,6 +33,8 @@ const Login = ({setLoginUser}) => {
             setLoginUser(res.data.user)
         
                 navigate("/");
+        }).catch(err=>{
+          console.log("error",err)
         })
     }
 

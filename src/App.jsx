@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Login from "./components/login/Login";
 import Signup from "./components/signup/Signup";
@@ -13,25 +13,41 @@ import Control from "./components/AdminControls/control";
 import EditNotices from "./components/Notices/EditNotices";
 
 function App() {
-  const [user, setLoginUser] = useState({});
+  const [user, setLoginUser] = useState(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : {};
+    } catch (error) {
+      console.error("Error parsing user data from local storage:", error);
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <Router>
-        {user._id && <NavSlider />}
+        {user && user._id && <NavSlider isAdmin={user.isAdmin}/>}
 
         <Routes>
           <Route
-            exact path="/"
+            exact
+            path="/"
             element={
-              user._id ? (
+              (user && user._id) ? (
                 <Dashboard user={user} setLoginUser={setLoginUser} />
               ) : (
                 <Login setLoginUser={setLoginUser} />
               )
             }
           />
-          <Route path="/login" element={<Login setLoginUser={setLoginUser} />} />
+          <Route
+            path="/login"
+            element={<Login setLoginUser={setLoginUser} />}
+          />
           <Route path="/signup" element={<Signup />} />
           <Route path="/users/Results" element={<Results />} />
           <Route path="/users/Notices" element={<Notices />} />
