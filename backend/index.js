@@ -76,7 +76,7 @@ app.post("/login", async (req, res) => {
         res.send({ message: "user not found" })
         return;
     }
-
+    
     const isPassword = await bcrypt.compare(password, isUser.password);
     if (isPassword) {
         res.send({ message: "logged in successfully", user: isUser })
@@ -86,8 +86,35 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.post("/changePassword", async (req, res) => {
+    const { currentPass, newPass, confirmPass, enrollmentNo } = req.body;
+ 
+    const isUser = await User.findOne({ enrollmentNo });
+ 
+    if (!isUser) {
+       res.send({ message: "User not found" });
+       return;
+    }
+ 
+    const isPassword = await bcrypt.compare(currentPass, isUser.password);
+    if(isPassword){
+        const hashedNewPw = await bcrypt.hash(newPass, 5);
+        isUser.password=hashedNewPw;
+        await isUser.save();
+        res.send({ message: "Password changed successfully" });
+        console.log("changed successfully");
+    }else{
+        res.send({ message: "Incorrect current password" });
+        console.log("Incorrect current password")
+    }
+
+ 
+   console.log(isPassword)
+ });
+ 
+
 app.listen(3000, () => {
-    console.log("server is running at port 3000");
+    console.log("MONGO server is running at port 3000");
 });
 
 
