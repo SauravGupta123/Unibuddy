@@ -12,7 +12,8 @@ const Register = () => {
         lastName: "",
         enrollmentNo:"",
         password:"",
-        reEnterPassword: ""
+        reEnterPassword: "",
+        isAdmin:false
     })
 
     const handleChange = e => {
