@@ -10,7 +10,7 @@ import Notices from "./components/Notices/Notices";
 import Timetable from "./components/Timetable/Timetable";
 import Resources from "./components/Resources/Resources";
 import Control from "./components/AdminControls/control";
-import EditNotices from "./components/Notices/EditNotices";
+import EditNotices from "./components/AdminControls/EditNotices";
 
 function App() {
   const [user, setLoginUser] = useState(() => {
