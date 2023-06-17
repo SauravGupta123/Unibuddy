@@ -23,7 +23,7 @@ function Notices() {
 
     const redirectTo=()=>{
     //change <anyId>  
-      navigate('/admin/Controls/notices/Saurav/edit')
+      navigate('/admin/Controls/notices/anyID/edit')
     }
   return (
     <div className='bg-blue-400 mt-7  w-full h-[100vh]'>
