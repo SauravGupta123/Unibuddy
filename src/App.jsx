@@ -13,8 +13,13 @@ import Control from "./components/AdminControls/control";
 
 function App() {
   const [user, setLoginUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : {};
+    try {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : {};
+    } catch (error) {
+      console.error("Error parsing user data from local storage:", error);
+      return {};
+    }
   });
 
   useEffect(() => {
@@ -24,14 +29,14 @@ function App() {
   return (
     <div className="flex">
       <Router>
-        {user._id && <NavSlider isAdmin={user.isAdmin}/>}
+        {user && user._id && <NavSlider isAdmin={user.isAdmin}/>}
 
         <Routes>
           <Route
             exact
             path="/"
             element={
-              user._id ? (
+              (user && user._id) ? (
                 <Dashboard user={user} setLoginUser={setLoginUser} />
               ) : (
                 <Login setLoginUser={setLoginUser} />
