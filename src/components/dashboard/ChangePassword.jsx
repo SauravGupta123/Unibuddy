@@ -39,7 +39,7 @@ function ChangePassword(props) {
   }
   
   return (
-    <section className="login border-4 border-yellow-300 mt-4">
+    <section className="login border-4 border-yellow-300 mt-4 mr-0 w-52">
            <form action="/" method='post'>
             <label htmlFor="currentPass" >current Password: </label>
             <input className=" border-black" type="password" id="currentPass" name="currentPass" value={user.currentPass} onChange={handleChange} required/>
