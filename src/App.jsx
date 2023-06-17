@@ -9,6 +9,8 @@ import Results from "./components/Results/Results";
 import Notices from "./components/Notices/Notices";
 import Timetable from "./components/Timetable/Timetable";
 import Resources from "./components/Resources/Resources";
+import Control from "./components/AdminControls/control";
+import EditNotices from "./components/Notices/EditNotices";
 
 function App() {
   const [user, setLoginUser] = useState({});
@@ -31,10 +33,12 @@ function App() {
           />
           <Route path="/login" element={<Login setLoginUser={setLoginUser} />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/Results" element={<Results />} />
-          <Route path="/Notices" element={<Notices />} />
-          <Route path="/TimeTable" element={<Timetable />} />
-          <Route path="/Resources" element={<Resources />} />
+          <Route path="/users/Results" element={<Results />} />
+          <Route path="/users/Notices" element={<Notices />} />
+          <Route path="/users/TimeTable" element={<Timetable />} />
+          <Route path="/users/Resources" element={<Resources />} />
+          <Route path="/admin/Controls" element={<Control />} />
+          <Route path="/admin/Controls/notices/:id/edit" element={<EditNotices />} />
         </Routes>
       </Router>
     </div>

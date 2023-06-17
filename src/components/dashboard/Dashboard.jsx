@@ -21,7 +21,7 @@ const Dashboard = (props) => {
             <button className="btn btn-blue" onClick={handleLogout}> Log Out</button>
           
             </div>
-
+           
         </div>
     )
 }
