@@ -29,7 +29,7 @@ export default function Notices() {
             <tr key={index}>
               <td className="border border-black  p-2">{index+1}</td>
               <td className="border border-black  p-2">{item.title}</td>
-              <td className="border border-black  p-2">{item.link}</td>
+              <td className="border border-black  p-2"><a href={item.link}>{item.link}</a></td>
             </tr>
           ))}
         </tbody>
