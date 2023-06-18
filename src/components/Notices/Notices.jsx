@@ -14,7 +14,7 @@ export default function Notices() {
   
 
   return (
-    <div className="container bg-blue-200 w-full flex items-center justify-center">
+    <div className="container w-full flex items-center justify-center">
     <div>
       <table className="border-collapse border">
         <thead>

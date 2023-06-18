@@ -17,6 +17,40 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) 
 {
     case "GET":
+        $path = explode('/', $_SERVER['REQUEST_URI']);
+        if (isset($path[5]) && is_numeric($path[5]) )
+        {
+            $json_array = array();
+            $notice_id = $path[5];
+            // echo "get user id ------".$notice_id;die;
+
+            $getNoticeRow = mysqli_query($db_conn, "SELECT * FROM notices WHERE id = '$notice_id'");
+            if(mysqli_num_rows($getNoticeRow) == 0) {
+                echo json_encode(array("result" => "No Notices Found"));
+                return;
+            } else {
+                while($noticeRow = mysqli_fetch_array($getNoticeRow)){
+                    $json_array['rowNoticeData'] = array('id'=> $noticeRow['id'], 'title'=> $noticeRow['notice_name'], 'link'=> $noticeRow['notice_link']);
+                }
+                echo json_encode($json_array['rowNoticeData']);
+                return;
+            }
+
+        } else {
+            $allnotices = mysqli_query($db_conn, "SELECT * FROM notices");
+            if(mysqli_num_rows($allnotices) > 0) 
+            {
+                while($row = mysqli_fetch_array($allnotices)) 
+                {
+                    $json_array["notice"][] = array("id" => $row["id"], "title" => $row["notice_name"], "link" => $row["notice_link"]);
+                }
+             echo json_encode($json_array["notice"]);
+             return;
+            } else {
+                echo json_encode(array("result" => "No Notices Found"));
+                return;
+            }
+        }
         $allnotices = mysqli_query($db_conn, "SELECT * FROM notices");
         if(mysqli_num_rows($allnotices) > 0) 
         {
@@ -48,6 +82,24 @@ switch ($method)
         }
 
         break;
+
+        case "PUT":
+            $noticeUpdate = json_decode(file_get_contents('php://input'));
+            $id = $noticeUpdate->id;
+            $title = $noticeUpdate->title;
+            $link = $noticeUpdate->link;
+    
+            $updateNotice = mysqli_query($db_conn, "UPDATE notices SET notice_name = '$title', notice_link = '$link' WHERE id = '$id'");
+    
+            if($updateNotice) {
+                echo json_encode(array("result" => "Notice Updated Successfully"));
+                return;
+            } else {
+                echo json_encode(array("result" => "Notice Updation Failed"));
+                return;
+            }
+    
+            break;
 }
 
 
