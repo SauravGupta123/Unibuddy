@@ -5,8 +5,9 @@ import { Navigate, useNavigate, Link } from "react-router-dom"
 
 function Notices() {
   const [inputs, setInputs] = useState({})
-
   const [noticeData, setNoticeData] = useState([])
+  const [message, setMessage] = useState();
+
   useEffect(() => {
     const getNoticeData = async () => {
       const reqData = await fetch('http://localhost/unibuddy/backend/api/notices.php')
@@ -16,7 +17,6 @@ function Notices() {
     }
     getNoticeData()
   }, [])
-  const navigate=useNavigate()
     const handleChange = (e) => {
         const name = e.target.name
         const value = e.target.value
@@ -31,13 +31,14 @@ function Notices() {
         console.log(inputs);
     
     }
-
-    const redirectTo=()=>{
-    //change <anyId>  
-      navigate('/admin/Controls/notices/anyID/edit')
+    const handleDelete = async(id) => {
+      const res = await axios.delete('http://localhost/unibuddy/backend/api/notices.php/'+id)
+      setMessage(res.data.message)
     }
+
   return (
     <div className='mt-7  w-full h-[100vh]'>
+      <p>{message}</p>
       <form action="" onSubmit={handleSubmit}>
             <label htmlFor="title">Notice Title</label>
             <input type="text" name="title" onChange={handleChange}/>
@@ -69,6 +70,7 @@ function Notices() {
               <td className="border border-black  p-2">{item.link}</td>
               <td className="border border-black  p-2">
                   <Link className='text-green-700' to={"/admin/Controls/notices/"+ item.id +"/edit"}>Edit</Link>
+                  <button onClick={() => handleDelete(item.id)}>Delete</button>
               </td>
             </tr>
           ))}

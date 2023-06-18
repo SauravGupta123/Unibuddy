@@ -100,6 +100,26 @@ switch ($method)
             }
     
             break;
+            case "DELETE":
+                $path = explode('/', $_SERVER['REQUEST_URI']);
+                if (isset($path[5]) && is_numeric($path[5]) )
+                {
+                    $notice_id = $path[5];
+                    $deleteNotice = mysqli_query($db_conn, "DELETE FROM notices WHERE id = '$notice_id'");
+                    if($deleteNotice) {
+                        echo json_encode(array("result" => "Notice Deleted Successfully"));
+                        return;
+                    } else {
+                        echo json_encode(array("result" => "Notice Deletion Failed"));
+                        return;
+                    }
+                } else {
+                    echo json_encode(array("result" => "Notice Deletion Failed"));
+                    return;
+                }
+
+                break;
+
 }
 
 
