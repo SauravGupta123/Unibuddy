@@ -1,33 +1,33 @@
-const mongoose= require('mongoose');
+const mongoose = require('mongoose');
 
-
-const userSchema= new mongoose.Schema({
-    firstName:{
-        type:String,
-        required:[true,"please enter the firstname"],
-      
+const userSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: [true, "Please enter the first name"],
     },
-    lastName:{
-        type:String,
-        required:[true,"please enter the lastname"],
-      
+    lastName: {
+        type: String,
+        required: [true, "Please enter the last name"],
     },
-
-    enrollmentNo:{
-        type:Number,
-        required:[true,"please enter the entollment number"],
-        
-      
+    enrollmentNo: {
+        type: String,
+        required: [true, "Please enter the enrollment number"],
     },
-
-    password:{
-        type:String,
-        required:[true,"enter password"]
+    password: {
+        type: String,
+        required: [true, "Please enter the password"]
     },
-    isAdmin:{
-        type:Boolean
+    isAdmin: {
+        type: Boolean
+    },
+    branch: {
+        type: String,
+        enum: ['CSE', 'IT', 'ECE'] // Add enum validation for branch field
+    },
+    batch: {
+        type: Number,
+        enum: [19,20,21,22] // Change enum validation to numbers for batch field
     }
 });
 
-
-module.exports= mongoose.model('User',userSchema);
+module.exports = mongoose.model('User', userSchema);
