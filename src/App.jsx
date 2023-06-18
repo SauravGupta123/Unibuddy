@@ -10,6 +10,7 @@ import Notices from "./components/Notices/Notices";
 import Timetable from "./components/Timetable/Timetable";
 import Resources from "./components/Resources/Resources";
 import Control from "./components/AdminControls/control";
+import EditNotices from "./components/AdminControls/EditNotices";
 
 function App() {
   const [user, setLoginUser] = useState(() => {
@@ -53,6 +54,7 @@ function App() {
           <Route path="/users/TimeTable" element={<Timetable />} />
           <Route path="/users/Resources" element={<Resources />} />
           <Route path="/admin/Controls" element={<Control />} />
+          <Route path="/admin/Controls/notices/:id/edit" element={<EditNotices />} />
         </Routes>
       </Router>
     </div>
