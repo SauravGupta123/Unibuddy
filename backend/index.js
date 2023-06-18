@@ -28,8 +28,7 @@ app.use(express.json());
 
 
 //signup
-app.post("/signup", async (req, res) => {
-    console.log(req.body);
+    app.post("/signup", async (req, res) => {
     let { firstName, lastName, password, enrollmentNo, isAdmin } = req.body;
     firstName = toPascalCase(firstName);
     lastName = toPascalCase(lastName);
@@ -46,6 +45,50 @@ app.post("/signup", async (req, res) => {
         res.send({ message: "Name cannot be a number-idx.js" });
         return;
     }
+    let currBranch = enrollmentNo.slice(6, 9);
+    let currBatch = enrollmentNo.slice(9, 11);
+    let branch, batch;
+
+    try {
+        switch (currBranch) {
+            case "032":
+                branch = "CSE";
+                break;
+            case "015":
+                branch = "IT";
+                break;
+            case "128":
+                branch = "ECE";
+                break;
+            default:
+                throw new Error('invalid branch code');
+        }
+    } catch (error) {
+        res.send({ message: error.message });
+        return;
+    }
+    try {
+        switch (currBatch) {
+
+            case "19":
+                batch = 19;
+                break;
+            case "20":
+                batch = 20;
+                break;
+            case "21":
+                batch = 21;
+                break;
+            case "22":
+                batch = 22;
+                break;
+            default:
+                throw new Error('invalid batch code');
+        }
+    } catch (error) {
+        res.send({ message: error.message });
+        return;
+    }
 
     const hashedPw = await bcrypt.hash(password, 5);
     const newUser = new User({
@@ -53,11 +96,12 @@ app.post("/signup", async (req, res) => {
         lastName,
         enrollmentNo,
         password: hashedPw,
-        isAdmin
+        isAdmin,
+        branch,
+        batch
     });
     newUser.save().then(data => {
         console.log("saved");
-        console.log(newUser);
         res.send({ message: "Saved SuccessFully -indexedDB.js" });
     });
 
@@ -76,7 +120,7 @@ app.post("/login", async (req, res) => {
         res.send({ message: "user not found" })
         return;
     }
-    
+
     const isPassword = await bcrypt.compare(password, isUser.password);
     if (isPassword) {
         res.send({ message: "logged in successfully", user: isUser })
@@ -88,30 +132,33 @@ app.post("/login", async (req, res) => {
 
 app.post("/changePassword", async (req, res) => {
     const { currentPass, newPass, confirmPass, enrollmentNo } = req.body;
- 
+
     const isUser = await User.findOne({ enrollmentNo });
- 
+
     if (!isUser) {
-       res.send({ message: "User not found" });
-       return;
+        res.send({ message: "User not found" });
+        return;
     }
- 
+
     const isPassword = await bcrypt.compare(currentPass, isUser.password);
-    if(isPassword){
+    if (isPassword) {
         const hashedNewPw = await bcrypt.hash(newPass, 5);
-        isUser.password=hashedNewPw;
+        isUser.password = hashedNewPw;
         await isUser.save();
         res.send({ message: "Password changed successfully" });
         console.log("changed successfully");
-    }else{
+    } else {
         res.send({ message: "Incorrect current password" });
         console.log("Incorrect current password")
     }
 
- 
-   console.log(isPassword)
- });
- 
+
+    console.log(isPassword)
+});
+
+app.use((err, req, res, next) => {
+    res.send(`An error occurred: ${err.message}`);
+});
 
 app.listen(3000, () => {
     console.log("MONGO server is running at port 3000");
