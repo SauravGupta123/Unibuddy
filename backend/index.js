@@ -15,7 +15,7 @@ function toPascalCase(str) {
 }
 
 //mongoose connection check
-mongoose.connect("mongodb://127.0.0.1:27017/students").then((data) => {
+mongoose.connect("mongodb://127.0.0.1:27017/Unibuddy").then((data) => {
     console.log("connection open");
 }).catch((err) => {
     console.log(err);
