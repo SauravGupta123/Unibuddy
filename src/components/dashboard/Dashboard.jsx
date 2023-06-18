@@ -39,6 +39,10 @@ const Dashboard = (props) => {
                 <h2>
                     enrollment no= {props.user.enrollmentNo}
                 </h2>
+                <h2>
+                    branch= {props.user.branch}
+                    batch={props.user.batch}
+                </h2>
             </div>
             <div className="buttons ">
                 <button className="btn btn-blue mr-5 " onClick={handleClick} >Change password</button>
