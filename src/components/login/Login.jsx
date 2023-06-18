@@ -41,7 +41,7 @@ const Login = ({setLoginUser}) => {
     return (
         <div className="login">
             <h1>Login</h1>
-            <input type="number" name="enrollmentNo" value={user.enrollmentNo} onChange={handleChange} placeholder="Enter your enrollmentNo"></input>
+            <input type="text" name="enrollmentNo" minLength="11" maxLength="11" value={user.enrollmentNo} onChange={handleChange} placeholder="Enter your enrollmentNo"></input>
             <input type="password" name="password" value={user.password} onChange={handleChange}  placeholder="Enter your Password" ></input>
             <div className="button" onClick={login}>Login</div>
             <div>or</div>
